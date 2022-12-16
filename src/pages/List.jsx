@@ -1,6 +1,4 @@
 import { Outlet, Link } from 'react-router-dom';
-import FixedList from '../components/FixedList';
-import VariableList from '../components/VariableList';
 
 const List = () => {
   return (
