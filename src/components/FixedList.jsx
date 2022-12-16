@@ -10,8 +10,7 @@ const Item = ({ index }) => {
   const { id, name } = ITEMS[index];
   return (
     <div>
-      <p>ID: {id}</p>
-      <p>Name: {name}</p>
+      ID: {id} / Name: {name}
     </div>
   );
 };
