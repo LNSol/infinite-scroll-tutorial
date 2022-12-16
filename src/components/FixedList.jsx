@@ -27,7 +27,7 @@ const FixedList = () => {
       <h4>FixedSizeList</h4>
       <FixedSizeList
         style={{ border: '1px solid black' }}
-        height={500}
+        height={475}
         width={300}
         itemSize={50}
         itemCount={1000}
