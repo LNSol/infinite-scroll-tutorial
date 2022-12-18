@@ -11,6 +11,9 @@ const List = () => {
         <li>
           <Link to='/list/variable'>VariableList</Link>
         </li>
+        <li>
+          <Link to='/list/chat'>Chat</Link>
+        </li>
       </ul>
       <Outlet />
     </div>
