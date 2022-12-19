@@ -1,11 +1,14 @@
+import { memo } from 'react';
 const ChatMsg = ({ msg }) => {
   return (
     <div
-      className={`msg${msg.id}`}
-      style={{ height: 25 + Math.round(Math.random() * 50) }}
+      style={{
+        height: 50 + Math.round(Math.random() * 50),
+        border: '1px solid red',
+      }}
     >
       {msg.id}: {msg.content}
     </div>
   );
 };
-export default ChatMsg;
+export default memo(ChatMsg);
