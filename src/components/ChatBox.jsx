@@ -1,5 +1,5 @@
-import { useEffect, useRef, memo } from 'react';
-import { VariableSizeList as List, areEqual } from 'react-window';
+import { useEffect, useRef } from 'react';
+import { VariableSizeList as List } from 'react-window';
 import { LoremIpsum } from 'lorem-ipsum';
 import ChatMsg from './ChatMsg';
 
@@ -10,7 +10,7 @@ const lorem = new LoremIpsum({
   },
 });
 
-const Msgs = Array.from({ length: 100 }, (_, idx) => ({
+const Msgs = Array.from({ length: 1000 }, (_, idx) => ({
   id: idx + 1,
   content: lorem.generateSentences(1),
 }));
@@ -19,24 +19,20 @@ const ChatBox = () => {
   const listRef = useRef({});
   const rowHeights = useRef({});
 
-  console.log('render');
-
   const getRowHeight = (index) => {
-    return rowHeights.current[index] || 50;
+    return rowHeights.current[index] || 0; /* import!!! */
   };
   const setRowHeight = (index, size) => {
-    listRef.current.resetAfterIndex(0);
+    listRef.current.resetAfterIndex(0); /* issue */
     rowHeights.current = { ...rowHeights.current, [index]: size };
   };
-
-  const Row = memo(({ index, style }) => {
+  /* ------------------- Row ----------------------- */
+  const Row = ({ index, style }) => {
     const rowRef = useRef({});
 
     useEffect(() => {
-      if (rowRef.current) {
-        console.log('>> ', rowRef.current.clientHeight);
+      if (rowRef.current && !rowHeights.current[index])
         setRowHeight(index, rowRef.current.clientHeight);
-      }
     }, [rowRef.current]);
 
     return (
@@ -46,7 +42,15 @@ const ChatBox = () => {
         </div>
       </div>
     );
-  }, areEqual);
+  };
+  /* ------------------------------------------------- */
+  const onClick = (item) => {
+    listRef.current.scrollToItem(item, 'start');
+  };
+
+  useEffect(() => {
+    listRef.current.scrollToItem(Msgs.length - 1, 'end');
+  }, []);
 
   return (
     <div>
@@ -61,6 +65,9 @@ const ChatBox = () => {
       >
         {Row}
       </List>
+      <button onClick={() => onClick(20)}>Scroll To 20</button>
+      <button onClick={() => onClick(50)}>Scroll To 50</button>
+      <button onClick={() => onClick(80)}>Scroll To 80</button>
     </div>
   );
 };
